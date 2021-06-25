@@ -14,6 +14,7 @@ import arcade
 import os
 from CreateLevel import CreatingLevel
 from Goal import Goal
+from PitTile import PitTile
 
 SPRITE_SCALING = 0.5
 
@@ -41,13 +42,15 @@ class MyGame(arcade.Window):
         os.chdir(file_path)
 
         # Sprite lists
-        self.LevelIn = 1
+        self.LevelIn = 0
         self.coin_list = None
         self.wall_list = None
         self.player_list = None
+        self.pit_list = None
 
         # Set up the player
         self.player_sprite = None
+        self.pit_sprite = None
         self.physics_engine = None
 
     def setup(self):
@@ -57,8 +60,10 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
         self.goal_list = arcade.SpriteList()
+        
         self.goal_sprite = arcade.Sprite(":resources:images/items/gold_1.png", 
                                             SPRITE_SCALING)
+        
         # Set up the player
         self.player_sprite = arcade.Sprite(":resources:images/enemies/slimeBlock.png",
                                            SPRITE_SCALING)
@@ -68,6 +73,14 @@ class MyGame(arcade.Window):
         
         self.goal_list.append(self.goal_sprite)
 
+
+        #Make like this to make new tile
+        self.pit_list = arcade.SpriteList()
+       
+        #Make like this to make new tile
+
+
+
         self.player_list.append(self.player_sprite)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite,
                                                          self.wall_list, )
@@ -76,7 +89,7 @@ class MyGame(arcade.Window):
 
         # -- Set up the walls
         # Create a row of boxes
-        self.LoadLevel()
+        self.LoadLevel(1)
         
 
         
@@ -94,7 +107,9 @@ class MyGame(arcade.Window):
         self.goal_list.draw()
         # Draw all the sprites.
         self.wall_list.draw()
+        self.pit_list.draw()
         self.player_list.draw()
+        
         
 
     def on_key_press(self, key, modifiers):
@@ -124,10 +139,10 @@ class MyGame(arcade.Window):
        # example though.)
         self.physics_engine.update()
 
-    def LoadLevel(self):
+    def LoadLevel(self , LevelNumberToAdd):
         newLevel = CreatingLevel.WhichLevelToLoad(self.LevelIn)
         self.MakeLevel(newLevel)
-        self.LevelIn += 1
+        self.LevelIn += LevelNumberToAdd
         #if(self.LevelIn == 3):
         #   self.LevelIn = 1
     #Will Load next level
@@ -135,6 +150,8 @@ class MyGame(arcade.Window):
     def DeleteLevel(self):
         for i in range(len(self.wall_list)):
             self.wall_list.pop()
+        for i in range(len(self.pit_list)):
+            self.pit_list.pop()
 
 
     
@@ -164,6 +181,15 @@ class MyGame(arcade.Window):
                 #Moves The player to the correct location
                 self.player_sprite.center_x = TheX
                 self.player_sprite.center_y = TheY
+            if theLevel[x] == 4:
+                pit = arcade.Sprite(":resources:images/items/gold_1.png", 
+                                            SPRITE_SCALING)
+                pit.center_x = TheX
+                pit.center_y = TheY
+                self.pit_list.append(pit)
+                #self.scene.add_sprite("Pit", pit)
+                print("yes")
+                
                
 
             
@@ -177,8 +203,25 @@ class MyGame(arcade.Window):
     def CheckGameObjects(self):
         hitGoal = Goal.checkGoalCollission(self, self.player_sprite.center_x, self.player_sprite.center_y,
         self.goal_sprite.center_x,self.goal_sprite.center_y)
+
+        #hitPit = arcade.check_for_collision_with_list(
+        #    self.player_sprite, self.scene.get_sprite_list("Coins")
+        #)
+
+        # Loop through each coin we hit (if any) and remove it
+        #for coin in coin_hit_list:
+            # Remove the coin
+         #   coin.remove_from_sprite_lists()
+            # Play a sound
+          #  arcade.play_sound(self.collect_coin_sound)
+       # hitPit = PitTile.CheckIfHitPitTile(self, self.player_sprite.center_x, self.player_sprite.center_y,
+        #self.pit_list, self.pit_list.draw_hit_boxes)
+        
+        #if hitPit:
+         #   self.LoadLevel(0)
+
         if hitGoal:
-            self.LoadLevel()
+            self.LoadLevel(1)
         
 
 
