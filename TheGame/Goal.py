@@ -4,7 +4,7 @@ class Goal:
         distanceAmount = 20
        
         if playerX >= goalX -distanceAmount and playerX <= goalX + distanceAmount and playerY >= goalY -distanceAmount and playerY  <= goalY + distanceAmount:
-            print("Loads Next Level")
+            #print("Loads Next Level")
             return True
         return False
         #return True
