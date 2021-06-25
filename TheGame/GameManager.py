@@ -20,7 +20,7 @@ SPRITE_SCALING = 0.5
 
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 568
-SCREEN_TITLE = "Sprite Move with Walls Example"
+SCREEN_TITLE = "Escape Artist"
 
 MOVEMENT_SPEED = 5
 
