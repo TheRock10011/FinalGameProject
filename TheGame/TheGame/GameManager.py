@@ -18,8 +18,8 @@ from PitTile import PitTile
 
 SPRITE_SCALING = 0.5
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 768
+SCREEN_HEIGHT = 568
 SCREEN_TITLE = "Sprite Move with Walls Example"
 
 MOVEMENT_SPEED = 5
@@ -182,7 +182,7 @@ class MyGame(arcade.Window):
         #0 for nothing, 1 for wall, 2 for goal, and 3 for player.
         #5 for ConveyerUP, 6 for ConveyerDown, 7 for ConveyerLeft, 8 for ConveyerRight, 
         TheX = 0 # 20
-        TheY = SCREEN_HEIGHT - 32 # 14
+        TheY = SCREEN_HEIGHT # 14
         
         
         for x in range(len(theLevel)):#130 should be he number
